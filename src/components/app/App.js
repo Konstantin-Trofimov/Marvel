@@ -1,4 +1,4 @@
-import { Component } from "react"
+import { useState } from "react"
 import AppHeader from "../appHeader/AppHeader"
 import RandomChar from "../randomChar/RandomChar"
 import CharList from "../charList/CharList"
@@ -7,37 +7,33 @@ import ErrorBouandary from "../errorBouandary/ErrorBouandary"
 
 import decoration from '../../resources/img/vision.png'
 
-class App extends Component {
+const App = () => {
+    const [selectedChar, setChar] = useState(null)
 
-    state = {
-        selectedChar: null
+    const onCharSelected = id => {
+        setChar(id)
     }
 
-    onCharSelected = (id) => {
-        this.setState({selectedChar: id})
-    }
-
-    render() {
-        return (
-            <div className="app">
-                <AppHeader/>
-                <main>
+    return (
+        <div className="app">
+            <AppHeader/>
+            <main>
+                <ErrorBouandary>
+                    <RandomChar/> 
+                </ErrorBouandary>
+                <div className="char__content">
                     <ErrorBouandary>
-                        <RandomChar/> 
+                        <CharList onCharSelected={onCharSelected}/>
                     </ErrorBouandary>
-                    <div className="char__content">
-                        <ErrorBouandary>
-                            <CharList onCharSelected={this.onCharSelected}/>
-                        </ErrorBouandary>
-                        <ErrorBouandary>
-                            <CharInfo charID={this.state.selectedChar}/>    
-                        </ErrorBouandary>
-                    </div>
-                    <img className="bg-decoration" src={decoration} alt="vision"/>
-                </main>
-            </div>
-        )
-    }
+                    <ErrorBouandary>
+                        <CharInfo charID={selectedChar}/>    
+                    </ErrorBouandary>
+                </div>
+                <img className="bg-decoration" src={decoration} alt="vision"/>
+            </main>
+        </div>
+    )
+    
 
     
 }
